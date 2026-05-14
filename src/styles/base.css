@@ -1,0 +1,121 @@
+/* ─── Reset (modern minimal) ─── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: var(--lh-relaxed);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ─── Layout utilities ─── */
+.container-narrow {
+  width: 100%;
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+}
+
+.container-wide {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+}
+
+.container-full {
+  width: 100%;
+  max-width: var(--container-full);
+  margin-inline: auto;
+  padding-inline: var(--space-3);
+}
+
+/* ─── Inline accent helpers ─── */
+.accent-word {
+  color: var(--color-accent);
+}
+
+.marker {
+  background: linear-gradient(
+    to top,
+    var(--color-accent-soft) 0%,
+    var(--color-accent-soft) 45%,
+    transparent 45%,
+    transparent 100%
+  );
+  padding: 0 0.05em;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+/* ─── Headings ─── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: var(--lh-tight);
+  color: var(--color-text);
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: var(--color-accent-soft);
+  color: var(--color-text);
+}

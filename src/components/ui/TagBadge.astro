@@ -1,0 +1,60 @@
+---
+interface Props {
+  label: string;
+  variant?: "default" | "accent";
+  size?: "sm" | "md";
+  href?: string;
+}
+
+const { label, variant = "default", size = "sm", href } = Astro.props;
+const Tag = href ? "a" : "span";
+---
+
+<Tag
+  href={href}
+  class:list={["tag-badge", `tag-${variant}`, `tag-${size}`]}
+>
+  {label}
+</Tag>
+
+<style>
+  .tag-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--radius-sm);
+    line-height: 1.2;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .tag-sm {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .tag-md {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .tag-default {
+    border: 1px solid var(--color-border);
+    color: var(--color-text-sub);
+    background: transparent;
+  }
+
+  .tag-accent {
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+    border: 1px solid transparent;
+  }
+
+  a.tag-badge {
+    transition: border-color 120ms ease, color 120ms ease;
+  }
+
+  a.tag-default:hover {
+    border-color: var(--color-line-strong);
+    color: var(--color-text);
+  }
+</style>

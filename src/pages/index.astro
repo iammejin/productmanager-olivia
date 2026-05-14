@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeHero from "../components/sections/HomeHero.astro";
+import { siteConfig } from "../data/site";
+---
+
+<BaseLayout
+  title="Home"
+  description={siteConfig.description}
+  current="home"
+>
+  <HomeHero />
+</BaseLayout>

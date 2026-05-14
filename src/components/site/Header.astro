@@ -1,0 +1,104 @@
+---
+import { nav, siteConfig } from "../../data/site";
+import type { NavKey } from "../../layouts/BaseLayout.astro";
+
+interface Props {
+  current?: NavKey;
+}
+
+const { current } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="container-full header-inner">
+    <a href="/" class="logo" aria-label={`${siteConfig.logoText} home`}>
+      <span class="logo-text">olivia</span><span class="logo-dot">.</span>
+    </a>
+    <nav class="gnb" aria-label="primary">
+      <ul class="gnb-list">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={["gnb-link", { "is-current": current === item.key }]}
+                aria-current={current === item.key ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    padding-block: var(--space-2);
+  }
+
+  .logo {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+    line-height: 1;
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .logo-dot {
+    color: var(--color-accent);
+  }
+
+  .gnb-list {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  .gnb-link {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-sub);
+    transition: color 120ms ease;
+  }
+
+  .gnb-link:hover {
+    color: var(--color-text);
+  }
+
+  .gnb-link.is-current {
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    .header-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-2);
+      padding-block: var(--space-3);
+    }
+
+    .gnb-list {
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+
+    .gnb-link {
+      font-size: 14px;
+    }
+  }
+</style>

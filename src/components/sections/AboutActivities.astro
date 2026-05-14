@@ -1,0 +1,129 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import { siteConfig, externalLinks } from "../../data/site";
+---
+
+<section class="about-activities">
+  <div class="container-full activities-inner">
+    <SectionTitle eyebrow="Activities" title="활동·집필·운영" level={2} />
+
+    <div class="activities-list">
+      <div class="activity">
+        <h3 class="activity-title">Writing</h3>
+        <ul class="activity-items">
+          <li>
+            <a
+              href={externalLinks.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Instagram {siteConfig.instagramHandle} <span aria-hidden="true">↗</span>
+            </a>
+            <p class="activity-desc">IT 커리어 · PM 업무 · 포트폴리오 실무 콘텐츠</p>
+          </li>
+          <li>
+            <a href="/writing">Writing 모아보기</a>
+            <p class="activity-desc">사이트에 정리한 PM 실무 인사이트 글</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="activity">
+        <h3 class="activity-title">Mentoring</h3>
+        <ul class="activity-items">
+          <li>
+            <a href="/mentoring">1:1 커리어 멘토링 프로그램</a>
+            <p class="activity-desc">
+              주니어 직장인, PM 직무 전환자, 포트폴리오 컨설팅
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="activity">
+        <h3 class="activity-title">Publications</h3>
+        <ul class="activity-items">
+          <li>
+            <a href="/ebook">면접관에게 듣는 합격하는 포폴 치트키 (전자책)</a>
+            <p class="activity-desc">현업 PM 면접관 시점에서 정리한 합격 포폴 가이드</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-activities {
+    padding-block: var(--space-7);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .activities-inner {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .activities-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .activity {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .activity-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0;
+  }
+
+  .activity-items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .activity-items li {
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .activity-items a {
+    font-size: var(--fs-body-lg);
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .activity-items a:hover {
+    color: var(--color-accent);
+  }
+
+  .activity-desc {
+    margin: 0;
+    margin-top: 4px;
+    font-size: var(--fs-caption);
+    color: var(--color-text-sub);
+    line-height: var(--lh-relaxed);
+  }
+
+  @media (max-width: 900px) {
+    .activities-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  }
+</style>

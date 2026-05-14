@@ -1,0 +1,188 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import { workCompanies } from "../../data/work";
+---
+
+<section class="about-work">
+  <div class="container-full work-inner">
+    <SectionTitle eyebrow="Work" title="커리어" level={2} />
+
+    <ol class="work-timeline">
+      {
+        workCompanies.map((company) => (
+          <li class="work-item">
+            <div class="work-meta">
+              <h3 class="company">{company.company}</h3>
+              <p class="position">{company.position}</p>
+              <p class="period">
+                {company.period}
+                {company.durationNote && (
+                  <span class="duration">· {company.durationNote}</span>
+                )}
+              </p>
+            </div>
+
+            <div class="work-body">
+              <p class="intro">{company.intro}</p>
+
+              {company.roles.length > 0 && (
+                <div class="roles">
+                  {company.roles.map((role) => (
+                    <div class="role">
+                      <h4 class="role-title">{role.title}</h4>
+                      {role.description && <p class="role-desc">{role.description}</p>}
+                      <ul class="role-bullets">
+                        {role.bullets.map((bullet) => (
+                          <li>{bullet}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .about-work {
+    padding-block: var(--space-7);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .work-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .work-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .work-item {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: var(--space-5);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .work-item:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .work-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .company {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    color: var(--color-text);
+  }
+
+  .position {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .period {
+    font-size: var(--fs-caption);
+    color: var(--color-text-muted);
+    margin: 0;
+    margin-top: var(--space-1);
+  }
+
+  .duration {
+    color: var(--color-text-muted);
+  }
+
+  .work-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .intro {
+    font-size: var(--fs-body);
+    line-height: var(--lh-relaxed);
+    color: var(--color-text-sub);
+    margin: 0;
+  }
+
+  .roles {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .role {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .role-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0;
+    margin-bottom: var(--space-1);
+  }
+
+  .role-desc {
+    font-size: var(--fs-body);
+    color: var(--color-text-sub);
+    line-height: var(--lh-relaxed);
+    margin: 0;
+  }
+
+  .role-bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .role-bullets li {
+    font-size: var(--fs-body);
+    line-height: var(--lh-relaxed);
+    color: var(--color-text-sub);
+    padding-left: var(--space-2);
+    position: relative;
+  }
+
+  .role-bullets li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 900px) {
+    .work-item {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>

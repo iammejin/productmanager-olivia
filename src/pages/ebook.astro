@@ -1,0 +1,409 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/ui/SectionTitle.astro";
+import { externalLinks } from "../data/site";
+
+const tableOfContents = [
+  "면접관이 포트폴리오를 보는 10분 기준",
+  "직무 역량을 살리는 스토리텔링",
+  "아쉬운 포트폴리오의 공통 특징",
+  "성과를 매력적으로 작성하는 법",
+  "신입도 강력해 보이는 포트폴리오 특징",
+  "바로 쓸 수 있는 노션 템플릿 5종",
+];
+
+const targetAudience = [
+  "포트폴리오 통과율이 낮아 고민인 분",
+  "PM 직무로 전환·이직을 준비 중인 분",
+  "신입·인턴이라 \"내세울 게 없다\"고 느끼는 분",
+  "포트폴리오 첫 페이지를 어떻게 시작할지 막막한 분",
+];
+---
+
+<BaseLayout
+  title="eBook"
+  description="면접관에게 듣는 합격하는 포폴 치트키 — 마케터·PM 등 다양한 면접관 시선으로 포트폴리오를 다시 설계하는 가이드 전자책."
+  current="ebook"
+>
+  <!-- HERO -->
+  <section class="ebook-hero">
+    <div class="container-wide hero-inner">
+      <div class="hero-text">
+        <SectionTitle eyebrow="eBook" title="면접관에게 듣는 합격하는 포폴 치트키" level={1} />
+        <p class="hero-lead">
+          "열심히 만든 내 포트폴리오, 왜 자꾸 탈락할까?"
+          <br />
+          그 답은 <span class="marker">보는 사람(면접관)의 시선</span>에 있습니다.
+        </p>
+        <p class="hero-body">
+          단순히 예쁜 포트폴리오가 아니라, 마케터·PM 등 다양한 직무 면접관이 실제로 보는
+          기준에 맞춰 구성하는 법을 담았습니다. 현직 PM 13년차의 실제 면접 경험을 토대로
+          정리한 가이드 + 바로 쓸 수 있는 노션 템플릿 5종.
+        </p>
+
+        <div class="hero-cta-row">
+          <a
+            class="cta-button primary"
+            href={externalLinks.ebook}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            전자책 보러가기 <span aria-hidden="true">↗</span>
+          </a>
+          <p class="cta-note">litt.ly에서 결제·다운로드 진행</p>
+        </div>
+      </div>
+
+      <aside class="hero-cover" aria-hidden="true">
+        <div class="cover-frame">
+          <div class="cover-placeholder">
+            <span class="cover-tag">eBook</span>
+            <span class="cover-title">면접관에게 듣는<br />합격하는<br />포폴 치트키</span>
+            <span class="cover-byline">PM Olivia</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- TOC -->
+  <section class="toc-section">
+    <div class="container-wide">
+      <SectionTitle eyebrow="Contents" title="이런 내용을 담았어요" level={2} />
+      <ol class="toc-list">
+        {
+          tableOfContents.map((item, i) => (
+            <li>
+              <span class="toc-num">{String(i + 1).padStart(2, "0")}</span>
+              <span class="toc-text">{item}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <!-- AUDIENCE -->
+  <section class="audience-section">
+    <div class="container-wide">
+      <SectionTitle eyebrow="For whom" title="이런 분들에게 도움이 됩니다" level={2} />
+      <ul class="audience-list">
+        {targetAudience.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- BRIDGE TO MENTORING -->
+  <section class="bridge-section">
+    <div class="container-wide">
+      <SectionTitle eyebrow="Next step" title="전자책으로 기본기 → 멘토링으로 깊이" level={2} />
+      <div class="bridge-card">
+        <p class="bridge-body">
+          전자책으로 면접관 시선의 기본기를 다진 뒤, 1:1 멘토링에서 본인 포트폴리오에
+          직접 적용해 보세요. <strong>포트폴리오 + 전자책 패키지</strong>를 선택하시면
+          전자책이 함께 제공됩니다.
+        </p>
+        <div class="bridge-cta">
+          <a class="cta-button" href="/mentoring">멘토링 프로그램 보기 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta-section">
+    <div class="container-wide">
+      <a
+        class="cta-button primary big"
+        href={externalLinks.ebook}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        전자책 구매하러 가기 <span aria-hidden="true">↗</span>
+      </a>
+      <p class="final-cta-note">
+        외부 사이트(litt.ly)에서 결제·다운로드가 진행됩니다.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero */
+  .ebook-hero {
+    padding-block: var(--space-8) var(--space-6);
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-7);
+    align-items: start;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .hero-lead {
+    margin: 0;
+    margin-top: var(--space-2);
+    font-size: var(--fs-h3);
+    line-height: var(--lh-snug, 1.4);
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .hero-body {
+    margin: 0;
+    max-width: 60ch;
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-relaxed);
+    color: var(--color-text-sub);
+  }
+
+  .hero-cta-row {
+    margin-top: var(--space-3);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  /* Cover */
+  .hero-cover {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-4);
+  }
+
+  .cover-frame {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    aspect-ratio: 3 / 4;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+  }
+
+  .cover-frame::after {
+    content: "";
+    position: absolute;
+    right: -8px;
+    bottom: -8px;
+    width: 56px;
+    height: 56px;
+    border-right: 3px solid var(--color-accent);
+    border-bottom: 3px solid var(--color-accent);
+  }
+
+  .cover-placeholder {
+    width: 100%;
+    height: 100%;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .cover-tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .cover-title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+
+  .cover-byline {
+    font-size: var(--fs-caption);
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+    .hero-cover {
+      order: -1;
+      justify-content: flex-start;
+      padding-top: 0;
+    }
+    .cover-frame {
+      max-width: 220px;
+    }
+  }
+
+  /* Common section */
+  .toc-section,
+  .audience-section,
+  .bridge-section,
+  .final-cta-section {
+    padding-block: var(--space-7);
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* TOC */
+  .toc-list {
+    margin-top: var(--space-5);
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2) var(--space-4);
+  }
+
+  @media (max-width: 768px) {
+    .toc-list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .toc-list li {
+    display: flex;
+    gap: var(--space-2);
+    align-items: baseline;
+    padding-block: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .toc-num {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    color: var(--color-accent);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+    min-width: 24px;
+  }
+
+  .toc-text {
+    font-size: var(--fs-body);
+    color: var(--color-text);
+    line-height: var(--lh-relaxed);
+  }
+
+  /* Audience */
+  .audience-list {
+    margin-top: var(--space-5);
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    max-width: var(--container-narrow);
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-sub);
+    line-height: var(--lh-relaxed);
+  }
+
+  .audience-list li {
+    position: relative;
+    padding-left: var(--space-2);
+  }
+
+  .audience-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-muted);
+  }
+
+  /* Bridge */
+  .bridge-card {
+    margin-top: var(--space-5);
+    padding: var(--space-4);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    display: grid;
+    grid-template-columns: 1.4fr auto;
+    gap: var(--space-4);
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    .bridge-card {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+
+  .bridge-body {
+    margin: 0;
+    font-size: var(--fs-body);
+    line-height: var(--lh-relaxed);
+    color: var(--color-text-sub);
+  }
+
+  .bridge-body strong {
+    color: var(--color-text);
+  }
+
+  /* Final CTA */
+  .final-cta-section {
+    text-align: center;
+    padding-block: var(--space-8);
+  }
+
+  .final-cta-note {
+    margin: 0;
+    margin-top: var(--space-2);
+    font-size: var(--fs-caption);
+    color: var(--color-text-muted);
+  }
+
+  /* CTA buttons */
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: var(--fs-body);
+    font-weight: 600;
+    transition: background-color 140ms ease, color 140ms ease;
+  }
+
+  .cta-button:hover {
+    background: var(--color-text);
+    color: var(--color-bg-elevated);
+  }
+
+  .cta-button.primary {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-bg-elevated);
+  }
+
+  .cta-button.primary:hover {
+    background: var(--color-text);
+    border-color: var(--color-text);
+    color: var(--color-bg-elevated);
+  }
+
+  .cta-button.big {
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--fs-body-lg);
+  }
+
+  .cta-note {
+    margin: 0;
+    font-size: var(--fs-caption);
+    color: var(--color-text-muted);
+  }
+</style>

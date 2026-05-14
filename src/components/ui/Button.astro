@@ -1,0 +1,91 @@
+---
+interface Props {
+  variant?: "primary" | "ghost";
+  href?: string;
+  type?: "button" | "submit";
+  external?: boolean;
+  ariaLabel?: string;
+  class?: string;
+}
+
+const {
+  variant = "ghost",
+  href,
+  type = "button",
+  external = false,
+  ariaLabel,
+  class: className,
+} = Astro.props;
+
+const isLink = !!href;
+const externalAttrs = external
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
+---
+
+{
+  isLink ? (
+    <a
+      href={href}
+      class:list={["btn", `btn-${variant}`, className]}
+      aria-label={ariaLabel}
+      {...externalAttrs}
+    >
+      <slot />
+      {external && <span class="external-icon" aria-hidden="true">↗</span>}
+    </a>
+  ) : (
+    <button
+      type={type}
+      class:list={["btn", `btn-${variant}`, className]}
+      aria-label={ariaLabel}
+    >
+      <slot />
+    </button>
+  )
+}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: 12px 20px;
+    font-size: var(--fs-body);
+    font-weight: 600;
+    line-height: 1;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: border-color 120ms ease, background-color 120ms ease, color 120ms ease;
+    text-align: center;
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-bg-elevated);
+    border-color: var(--color-accent);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-text);
+    border-color: var(--color-text);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-text);
+    border-color: var(--color-line-strong);
+  }
+
+  .btn-ghost:hover {
+    background: var(--color-text);
+    color: var(--color-bg-elevated);
+  }
+
+  .external-icon {
+    font-size: 0.85em;
+    line-height: 1;
+  }
+</style>

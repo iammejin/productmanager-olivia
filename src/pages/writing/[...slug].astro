@@ -1,0 +1,164 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import TagBadge from "../../components/ui/TagBadge.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("writing", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = `${post.data.date.getFullYear()}.${String(post.data.date.getMonth() + 1).padStart(2, "0")}.${String(post.data.date.getDate()).padStart(2, "0")}`;
+const formattedUpdated = post.data.updated
+  ? `${post.data.updated.getFullYear()}.${String(post.data.updated.getMonth() + 1).padStart(2, "0")}.${String(post.data.updated.getDate()).padStart(2, "0")}`
+  : null;
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  current="writing"
+>
+  <article class="post">
+    <div class="container-narrow">
+      <header class="post-header">
+        <span class="eyebrow">Writing</span>
+        <h1 class="post-title">{post.data.title}</h1>
+        {post.data.description && (
+          <p class="post-description">{post.data.description}</p>
+        )}
+        <div class="post-meta">
+          <time datetime={post.data.date.toISOString()}>{formattedDate}</time>
+          {formattedUpdated && (
+            <span class="updated">· 수정 {formattedUpdated}</span>
+          )}
+          {post.data.tags.length > 0 && (
+            <span class="meta-divider" aria-hidden="true">·</span>
+          )}
+          {post.data.tags.length > 0 && (
+            <ul class="tags-inline">
+              {post.data.tags.map((tag) => (
+                <li>
+                  <a href={`/writing/tags/${encodeURIComponent(tag)}`}>#{tag}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </header>
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      {post.data.canonical && (
+        <p class="canonical-note">
+          이 글은 <a href={post.data.canonical} target="_blank" rel="noopener noreferrer">{post.data.canonical}</a>에서도 보실 수 있습니다.
+        </p>
+      )}
+
+      <nav class="post-nav" aria-label="post navigation">
+        <a href="/writing" class="back-link">← 글 목록으로</a>
+      </nav>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    padding-block: var(--space-8) var(--space-7);
+  }
+
+  .post-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-bottom: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-5);
+  }
+
+  .post-title {
+    font-size: var(--fs-h1);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    color: var(--color-text);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .post-description {
+    font-size: var(--fs-body-lg);
+    color: var(--color-text-sub);
+    line-height: var(--lh-relaxed);
+    margin: 0;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: var(--space-2);
+    font-size: var(--fs-caption);
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .meta-divider {
+    color: var(--color-text-muted);
+  }
+
+  .tags-inline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tags-inline a {
+    color: var(--color-text-sub);
+    transition: color 120ms ease;
+  }
+
+  .tags-inline a:hover {
+    color: var(--color-accent);
+  }
+
+  .canonical-note {
+    margin-top: var(--space-6);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--fs-caption);
+    color: var(--color-text-muted);
+  }
+
+  .canonical-note a {
+    color: var(--color-text-sub);
+    border-bottom: 1px solid currentColor;
+  }
+
+  .post-nav {
+    margin-top: var(--space-7);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-link {
+    font-size: var(--fs-body);
+    color: var(--color-text-sub);
+    transition: color 120ms ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+</style>

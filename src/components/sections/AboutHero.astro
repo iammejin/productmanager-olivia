@@ -1,0 +1,211 @@
+---
+import { siteConfig, externalLinks } from "../../data/site";
+---
+
+<section class="about-hero">
+  <div class="container-full hero-inner">
+    <div class="hero-text">
+      <span class="eyebrow">About</span>
+      <h1 class="hero-headline">
+        서비스와 조직을<br />
+        <span class="accent-word">구조</span>로 설계합니다.
+      </h1>
+
+      <div class="hero-body">
+        <p>
+          안녕하세요. Product Manager {siteConfig.authorKo}({siteConfig.authorEn})입니다.
+        </p>
+        <p>
+          13년째 서비스를 만들고 있습니다. 지금은 우아한형제들에서 배달의민족 주문·배달
+          중계 플랫폼의 <span class="marker">PM이자 팀 리더</span>로 일합니다.
+        </p>
+        <p>
+          저는 두 가지 일을 가장 잘하고, 가장 좋아합니다. 하나는 복잡한 비즈니스를 단순한
+          구조로 풀어내는 일, 또 하나는 개개인이 함께 성장하고 협업할 수 있는 ‘시스템
+          기반의 팀’을 만드는 일입니다.
+        </p>
+        <p>
+          {siteConfig.instagramHandle}은 주니어 PM과 직무 전환자에게 13년 동안 일하면서
+          느낀 인사이트를 짧고 실용적으로 풀어내는 공간입니다.
+        </p>
+      </div>
+
+      <dl class="contact-table">
+        <div class="contact-row">
+          <dt>Email</dt>
+          <dd><a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a></dd>
+        </div>
+        <div class="contact-row">
+          <dt>Instagram</dt>
+          <dd>
+            <a href={externalLinks.instagram} target="_blank" rel="noopener noreferrer">
+              {siteConfig.instagramHandle} <span aria-hidden="true">↗</span>
+            </a>
+          </dd>
+        </div>
+        <div class="contact-row">
+          <dt>Brunch</dt>
+          <dd>
+            <a href={externalLinks.brunch} target="_blank" rel="noopener noreferrer">
+              {siteConfig.brunchHandle} <span aria-hidden="true">↗</span>
+            </a>
+          </dd>
+        </div>
+        <div class="contact-row">
+          <dt>LinkedIn</dt>
+          <dd>
+            <a href={externalLinks.linkedin} target="_blank" rel="noopener noreferrer">
+              {siteConfig.linkedinName} <span aria-hidden="true">↗</span>
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="hero-portrait">
+      <div class="portrait-frame">
+        <div class="portrait-placeholder" aria-hidden="true">
+          <span>Olivia</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-hero {
+    padding-block: var(--space-8) var(--space-7);
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-7);
+    align-items: start;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .hero-headline {
+    font-size: var(--fs-display);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-relaxed);
+    color: var(--color-text-sub);
+    max-width: 60ch;
+  }
+
+  .hero-body p {
+    margin: 0;
+  }
+
+  .contact-table {
+    margin: 0;
+    margin-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .contact-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--space-3);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--color-border);
+    align-items: baseline;
+  }
+
+  .contact-row dt {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .contact-row dd {
+    font-size: var(--fs-body);
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .contact-row dd a:hover {
+    color: var(--color-accent);
+  }
+
+  .hero-portrait {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-5);
+  }
+
+  .portrait-frame {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    max-width: 360px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+  }
+
+  .portrait-frame::after {
+    content: "";
+    position: absolute;
+    right: -8px;
+    bottom: -8px;
+    width: 56px;
+    height: 56px;
+    border-right: 3px solid var(--color-accent);
+    border-bottom: 3px solid var(--color-accent);
+  }
+
+  .portrait-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    font-size: var(--fs-h3);
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .about-hero {
+      padding-block: var(--space-6) var(--space-5);
+    }
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+    }
+    .hero-portrait {
+      order: -1;
+      justify-content: flex-start;
+      padding-top: 0;
+    }
+    .portrait-frame {
+      max-width: 240px;
+    }
+    .hero-body {
+      font-size: var(--fs-body);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .contact-row {
+      grid-template-columns: 100px 1fr;
+    }
+  }
+</style>

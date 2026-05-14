@@ -1,0 +1,87 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import SectionTitle from "../../../components/ui/SectionTitle.astro";
+import TagBadge from "../../../components/ui/TagBadge.astro";
+import WritingListItem from "../../../components/writing/WritingListItem.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("writing", ({ data }) => !data.draft);
+  const uniqueTags = Array.from(new Set(posts.flatMap((p) => p.data.tags)));
+
+  return uniqueTags.map((tag) => {
+    const filtered = posts
+      .filter((p) => p.data.tags.includes(tag))
+      .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+    return {
+      params: { tag },
+      props: { tag, posts: filtered },
+    };
+  });
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`#${tag} — Writing`}
+  description={`#${tag} 태그가 달린 글 모음.`}
+  current="writing"
+>
+  <section class="tag-page">
+    <div class="container-wide">
+      <SectionTitle eyebrow="Writing · Tag" title={`#${tag}`} level={1} />
+
+      <p class="meta">
+        총 {posts.length}개의 글 ·
+        <a href="/writing" class="back">모든 글 보기</a>
+      </p>
+
+      <ol class="posts">
+        {
+          posts.map((post) => (
+            <li>
+              <WritingListItem
+                href={`/writing/${post.id}`}
+                title={post.data.title}
+                description={post.data.description}
+                date={post.data.date}
+                tags={post.data.tags}
+              />
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .tag-page {
+    padding-block: var(--space-8) var(--space-7);
+  }
+
+  .meta {
+    margin-top: var(--space-3);
+    color: var(--color-text-sub);
+    font-size: var(--fs-body);
+  }
+
+  .meta .back {
+    color: var(--color-text-sub);
+    border-bottom: 1px solid currentColor;
+    margin-left: 6px;
+  }
+
+  .meta .back:hover {
+    color: var(--color-accent);
+  }
+
+  .posts {
+    list-style: none;
+    margin: 0;
+    margin-top: var(--space-5);
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+interface Props {
+  href?: string;
+  as?: "article" | "div" | "a";
+  bordered?: boolean;
+  class?: string;
+}
+
+const { href, as, bordered = true, class: className } = Astro.props;
+const Tag = href ? "a" : (as ?? "article");
+---
+
+<Tag
+  href={href}
+  class:list={["card", { "card-bordered": bordered }, className]}
+>
+  <slot />
+</Tag>
+
+<style>
+  .card {
+    display: block;
+    padding: var(--space-3);
+    background: var(--color-bg-elevated);
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    color: var(--color-text);
+    transition: border-color 140ms ease;
+  }
+
+  .card-bordered {
+    border-color: var(--color-border);
+  }
+
+  a.card:hover {
+    border-color: var(--color-line-strong);
+  }
+</style>

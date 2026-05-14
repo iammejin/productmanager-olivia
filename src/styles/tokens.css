@@ -1,0 +1,75 @@
+:root {
+  /* ─── COLOR ─── */
+  --color-bg: #FBF9F4;
+  --color-bg-elevated: #FFFFFF;
+  --color-text: #1A1A1A;
+  --color-text-sub: #5C5C5C;
+  --color-text-muted: #9A9A9A;
+  --color-accent: #FF6B1A;
+  --color-accent-soft: #FFE8D6;
+  --color-border: #E8E3D8;
+  --color-line-strong: #1A1A1A;
+
+  /* ─── TYPOGRAPHY ─── */
+  --font-sans: "Pretendard Variable", -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Pretendard", system-ui, sans-serif;
+
+  --fs-display: 64px;
+  --fs-h1: 40px;
+  --fs-h2: 28px;
+  --fs-h3: 20px;
+  --fs-body-lg: 18px;
+  --fs-body: 16px;
+  --fs-caption: 14px;
+
+  --lh-tight: 1.2;
+  --lh-normal: 1.5;
+  --lh-relaxed: 1.75;
+  --tracking-label: 0.15em;
+
+  /* ─── SPACING (8px scale) ─── */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 80px;
+  --space-9: 120px;
+
+  /* ─── CONTAINER ─── */
+  --container-narrow: 680px;
+  --container-wide: 1080px;
+  --container-full: 1280px;
+
+  /* ─── RADIUS (intentionally small — no rounded-card aesthetic) ─── */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --fs-display: 40px;
+    --fs-h1: 32px;
+    --fs-h2: 24px;
+  }
+}
+
+/*
+ * ══════════════════════════════════════════════════════
+ * DESIGN GUARDRAILS — DO NOT VIOLATE
+ * ══════════════════════════════════════════════════════
+ * ✗  border-radius > 4px (no pill buttons, no rounded cards)
+ * ✗  box-shadow (any form)
+ * ✗  linear-gradient / radial-gradient / background-image gradient
+ * ✗  transform: scale() or translateY() on :hover
+ * ✗  border-radius: 9999px (pill shape)
+ *
+ * --color-accent (#FF6B1A) usage limit: 1–3% of screen area
+ *   ✓ eyebrow labels, single accent word, logo dot, CTA text
+ *   ✗ card backgrounds, section backgrounds, large boxes
+ *
+ * Korean body text must use: line-height: var(--lh-relaxed) = 1.75
+ * ══════════════════════════════════════════════════════
+ */

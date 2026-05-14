@@ -1,0 +1,23 @@
+{
+  "name": "olivia-site",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "NODE_OPTIONS=--use-openssl-ca astro dev",
+    "dev:notls": "NODE_TLS_REJECT_UNAUTHORIZED=0 astro dev",
+    "build": "NODE_OPTIONS=--use-openssl-ca astro build",
+    "build:notls": "NODE_TLS_REJECT_UNAUTHORIZED=0 astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astro-notion/loader": "^1.1.2",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
+    "@microflash/rehype-figure": "^2.1.4",
+    "astro": "^6.3.1"
+  }
+}

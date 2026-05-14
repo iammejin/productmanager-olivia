@@ -1,0 +1,57 @@
+---
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  level?: 1 | 2 | 3;
+  align?: "left" | "center";
+  class?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  level = 2,
+  align = "left",
+  class: className,
+} = Astro.props;
+
+const Heading = `h${level}` as "h1" | "h2" | "h3";
+---
+
+<div class:list={["section-title", `align-${align}`, className]}>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <Heading class:list={["title", `level-${level}`]}>
+    <slot>{title}</slot>
+  </Heading>
+</div>
+
+<style>
+  .section-title {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .align-center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .title {
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: var(--lh-tight);
+  }
+
+  .level-1 {
+    font-size: var(--fs-h1);
+  }
+
+  .level-2 {
+    font-size: var(--fs-h2);
+  }
+
+  .level-3 {
+    font-size: var(--fs-h3);
+  }
+</style>

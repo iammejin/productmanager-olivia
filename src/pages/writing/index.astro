@@ -1,0 +1,97 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SectionTitle from "../../components/ui/SectionTitle.astro";
+import TagBadge from "../../components/ui/TagBadge.astro";
+import WritingListItem from "../../components/writing/WritingListItem.astro";
+
+const posts = await getCollection("writing", ({ data }) => !data.draft);
+const sorted = posts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const allTags = Array.from(
+  new Set(sorted.flatMap((post) => post.data.tags))
+).sort();
+---
+
+<BaseLayout
+  title="Writing"
+  description="PM 김혜진(Olivia)이 쌓아온 실무 인사이트와 직무 전환 경험에 대한 글 모음."
+  current="writing"
+>
+  <section class="writing-list-section">
+    <div class="container-wide">
+      <SectionTitle eyebrow="Writing" title="모든 글" level={1} />
+
+      {
+        allTags.length > 0 && (
+          <ul class="tags-cloud">
+            {allTags.map((tag) => (
+              <li>
+                <TagBadge
+                  label={`#${tag}`}
+                  href={`/writing/tags/${encodeURIComponent(tag)}`}
+                  variant="default"
+                  size="md"
+                />
+              </li>
+            ))}
+          </ul>
+        )
+      }
+
+      {
+        sorted.length === 0 ? (
+          <p class="empty">아직 발행된 글이 없습니다.</p>
+        ) : (
+          <ol class="posts">
+            {sorted.map((post) => (
+              <li>
+                <WritingListItem
+                  href={`/writing/${post.id}`}
+                  title={post.data.title}
+                  description={post.data.description}
+                  date={post.data.date}
+                  tags={post.data.tags}
+                />
+              </li>
+            ))}
+          </ol>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .writing-list-section {
+    padding-block: var(--space-8) var(--space-7);
+  }
+
+  .tags-cloud {
+    list-style: none;
+    margin: 0;
+    margin-top: var(--space-5);
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .posts {
+    list-style: none;
+    margin: 0;
+    margin-top: var(--space-6);
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .empty {
+    margin-top: var(--space-6);
+    padding-block: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: var(--fs-body);
+  }
+</style>

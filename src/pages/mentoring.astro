@@ -1,0 +1,704 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionTitle from "../components/ui/SectionTitle.astro";
+import ProgramCard from "../components/mentoring/ProgramCard.astro";
+import ReviewCard from "../components/mentoring/ReviewCard.astro";
+import {
+  fallbackPrograms,
+  fallbackReviews,
+  type MentoringProgram,
+  type Review,
+} from "../data/mentoring";
+import {
+  fallbackCohort,
+  paymentInfo,
+  refundPolicy,
+  applicationSteps,
+  sessionFormat,
+  type Cohort,
+} from "../data/cohort";
+import { externalLinks } from "../data/site";
+
+// ─── Notion data → fallback to static ───
+function richTextToPlain(prop: any): string {
+  if (!prop) return "";
+  if (Array.isArray(prop)) {
+    return prop.map((r: any) => r?.plain_text ?? "").join("");
+  }
+  if (prop.rich_text) return richTextToPlain(prop.rich_text);
+  if (prop.title) return richTextToPlain(prop.title);
+  return "";
+}
+
+function readNumber(prop: any): number | undefined {
+  if (!prop) return undefined;
+  return prop.number ?? undefined;
+}
+
+function readCheckbox(prop: any): boolean {
+  return Boolean(prop?.checkbox);
+}
+
+function readSelectName(prop: any): string | undefined {
+  return prop?.select?.name ?? undefined;
+}
+
+function readDate(prop: any): Date | undefined {
+  const start = prop?.date?.start;
+  return start ? new Date(start) : undefined;
+}
+
+function readUrl(prop: any): string | undefined {
+  return prop?.url ?? undefined;
+}
+
+function formatNotionDate(prop: any): string | undefined {
+  const start = prop?.date?.start;
+  if (!start) return undefined;
+  const d = new Date(start);
+  return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, "0")}.${String(d.getDate()).padStart(2, "0")}`;
+}
+
+const notionPrograms = await getCollection("mentoring");
+const programs: MentoringProgram[] =
+  notionPrograms.length > 0
+    ? notionPrograms
+        .map((entry: any): MentoringProgram => {
+          const p = entry.data?.properties ?? {};
+          const bulletsText = richTextToPlain(p["Bullets"]);
+          return {
+            slug: richTextToPlain(p["Slug"]) || entry.id,
+            title: richTextToPlain(p["Title"]),
+            subtitle: richTextToPlain(p["Subtitle"]) || undefined,
+            price: readNumber(p["Price"]) ?? 0,
+            originalPrice: readNumber(p["Original Price"]),
+            durationMinutes:
+              parseInt(richTextToPlain(p["Duration"]), 10) || undefined,
+            badge: richTextToPlain(p["Badge"]) || undefined,
+            bullets: bulletsText
+              .split(/\r?\n/)
+              .map((l) => l.trim())
+              .filter(Boolean),
+            externalLinkLabel:
+              richTextToPlain(p["External Link Label"]) || undefined,
+            externalLinkHref: readUrl(p["External Link Url"]),
+            order: readNumber(p["Order"]),
+          };
+        })
+        .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
+    : fallbackPrograms;
+
+// Reviews DB는 폼 응답 구조라 컬럼명이 길고 잘릴 수 있어서 prefix로 fuzzy 매칭.
+// 마케팅·홍보 노출 동의 체크된 항목만, 제출일 내림차순으로 정렬.
+function findPropByPrefix(
+  props: Record<string, any>,
+  prefix: string
+): string | undefined {
+  return Object.keys(props ?? {}).find((k) => k.startsWith(prefix));
+}
+
+const notionReviews = await getCollection("reviews");
+const reviews: Review[] =
+  notionReviews.length > 0
+    ? notionReviews
+        .filter((entry: any) => {
+          const p = entry.data?.properties ?? {};
+          const consentKey = findPropByPrefix(p, "후기를 마케팅");
+          if (!consentKey) return false; // fail safe: 동의 컬럼 못 찾으면 노출 안 함
+          return readCheckbox(p[consentKey]);
+        })
+        .map((entry: any): Review => {
+          const p = entry.data?.properties ?? {};
+          const authorKey = findPropByPrefix(p, "응답자");
+          const programKey = findPropByPrefix(p, "프로그램");
+          const dateKey = findPropByPrefix(p, "제출일");
+          const insightKey = findPropByPrefix(p, "멘토링으로 도움되었던");
+          return {
+            id: entry.id,
+            quote: insightKey ? richTextToPlain(p[insightKey]) : "",
+            author: authorKey ? richTextToPlain(p[authorKey]) || "익명" : "익명",
+            program: programKey ? readSelectName(p[programKey]) : undefined,
+            date: dateKey ? readDate(p[dateKey]) : undefined,
+          };
+        })
+        .filter((r) => r.quote.length > 0) // 본문 없으면 제외
+        .sort((a, b) => (b.date?.getTime() ?? 0) - (a.date?.getTime() ?? 0))
+    : fallbackReviews;
+
+// ─── Cohort: Notion DB의 Active 행 우선, 없으면 fallback ───
+const notionCohorts = await getCollection("cohorts");
+const activeNotionCohort = notionCohorts[0]; // loader가 filter Active=true 이미 적용
+
+const cohort: Cohort = activeNotionCohort
+  ? (() => {
+      const p: any = (activeNotionCohort as any).data?.properties ?? {};
+      return {
+        number: readNumber(p["Number"]) ?? 1,
+        startDate: formatNotionDate(p["Start Date"]) ?? "",
+        endDate: formatNotionDate(p["End Date"]) ?? "",
+        applicationDeadline: formatNotionDate(p["Application Deadline"]),
+        maxSlots: readNumber(p["Max Slots"]) ?? 5,
+        isOpen: readCheckbox(p["Is Open"]),
+      };
+    })()
+  : fallbackCohort;
+---
+
+<BaseLayout
+  title="Mentoring"
+  description="13년차 PM 김혜진(Olivia)의 1:1 멘토링 프로그램. 주니어 PM·직무 전환자·포트폴리오 컨설팅을 위한 짧고 실용적인 세션."
+  current="mentoring"
+>
+  <!-- HERO -->
+  <section class="mentoring-hero">
+    <div class="container-wide">
+      <SectionTitle eyebrow="Mentoring" title="1:1 멘토링" level={1} />
+
+      <div class="hero-intro">
+        <p class="lead">
+          사수 없는 IT업계 주니어, PM으로 직무 전환을 고민하는 분, 포트폴리오가 막막한
+          지원자 — <span class="marker">혼자 끙끙대지 않으셔도 돼요.</span>
+        </p>
+        <p>
+          네카라쿠배 현직 PM 팀장이 <strong>60분 동안 본인 상황에 맞춰 1:1로 직접</strong>
+          답변드립니다. 멘토링 후 24시간 내, 액션 플랜과 추천 자료가 담긴 노션 정리본까지
+          보내드려요.
+        </p>
+        <p class="audience-title">📍 이런 분들에게 추천드려요</p>
+        <ul class="audience-list">
+          <li>PM 취업·이직을 준비 중인 분</li>
+          <li>사수 없이 일하는 IT업계 주니어 직장인</li>
+          <li>다른 직무에서 PM 전환을 고민하는 분</li>
+          <li>포트폴리오·JD 분석이 막막한 분</li>
+        </ul>
+      </div>
+
+      {
+        cohort.isOpen && (
+          <div class="cohort-banner">
+            <span class="cohort-label">{cohort.number}기 모집 중</span>
+            <div class="cohort-dates">
+              <div class="cohort-row">
+                <dt>멘토링 기간</dt>
+                <dd>{cohort.startDate} – {cohort.endDate}</dd>
+              </div>
+              {cohort.applicationDeadline && (
+                <div class="cohort-row">
+                  <dt>모집 마감</dt>
+                  <dd>~ {cohort.applicationDeadline} (선착순 마감 시 종료)</dd>
+                </div>
+              )}
+              <div class="cohort-row">
+                <dt>각 프로그램</dt>
+                <dd>{cohort.maxSlots}명 한정</dd>
+              </div>
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- PROGRAMS -->
+  <section class="programs-section">
+    <div class="container-wide">
+      <SectionTitle eyebrow="Programs" title="프로그램 (택1)" level={2} />
+      <div class="programs-grid">
+        {programs.map((program) => (
+          <ProgramCard program={program} applyHref={externalLinks.mentoringForm} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SESSION FORMAT -->
+  <section class="format-section">
+    <div class="container-wide">
+      <SectionTitle eyebrow="How it works" title="진행 방식" level={2} />
+      <ul class="format-list">
+        {sessionFormat.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- APPLICATION STEPS -->
+  <section id="apply" class="apply-section">
+    <div class="container-wide">
+      <SectionTitle eyebrow="Apply" title="신청 절차" level={2} />
+
+      <ol class="step-list">
+        {applicationSteps.map((step, i) => (
+          <li>
+            <span class="step-num">{String(i + 1).padStart(2, "0")}</span>
+            <span class="step-text">{step}</span>
+          </li>
+        ))}
+      </ol>
+
+      <div class="apply-cta-row">
+        <a
+          class="cta-button"
+          href={externalLinks.mentoringForm}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          지금 신청하기 <span aria-hidden="true">↗</span>
+        </a>
+        <p class="cta-note">
+          입금 확인 후 24시간 내 작성하신 이메일로 일정 안내 드립니다.
+        </p>
+      </div>
+
+      <div class="payment-info">
+        <h3 class="payment-title">💳 입금 계좌</h3>
+        <div class="payment-detail">
+          [{paymentInfo.bankName}] <span class="account">{paymentInfo.accountNumber}</span> {paymentInfo.accountHolder}
+        </div>
+        <p class="payment-note">⚠️ {paymentInfo.note}</p>
+      </div>
+
+      <div class="refund-info">
+        <h3 class="refund-title">🔄 환불 규정</h3>
+        <ul class="refund-list">
+          {refundPolicy.map((rule) => <li>{rule}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS (optional) -->
+  {
+    reviews.length > 0 && (
+      <section class="reviews-section">
+        <div class="container-wide">
+          <SectionTitle eyebrow="Reviews" title="멘티 후기" level={2} />
+          <div class="reviews-list">
+            {reviews.map((review) => (
+              <ReviewCard review={review} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <!-- EBOOK CROSS-SELL -->
+  <section class="ebook-section">
+    <div class="container-wide">
+      <SectionTitle eyebrow="eBook" title="멘토링 전에, 전자책으로 먼저" level={2} />
+
+      <div class="ebook-card">
+        <div class="ebook-body">
+          <p class="ebook-headline">
+            <strong>면접관에게 듣는 합격하는 포폴 치트키</strong>
+          </p>
+          <p class="ebook-pitch">
+            "열심히 만든 내 포트폴리오, 왜 자꾸 탈락할까?" 그 답은 보는 사람(면접관)의
+            시선에 있습니다. 마케터·PM 등 면접관의 실제 기준으로 포트폴리오를 구성하는
+            법을 담았습니다.
+          </p>
+          <ul class="ebook-bullets">
+            <li>면접관이 포트폴리오를 보는 10분 기준</li>
+            <li>직무 역량을 살리는 스토리텔링</li>
+            <li>아쉬운 포트폴리오의 공통 특징</li>
+            <li>성과를 매력적으로 작성하는 법</li>
+            <li>신입도 강력해 보이는 포트폴리오 특징</li>
+            <li>바로 쓸 수 있는 노션 템플릿 5종</li>
+          </ul>
+        </div>
+        <div class="ebook-cta-block">
+          <a
+            class="ebook-cta"
+            href={externalLinks.ebook}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            전자책 보러가기 <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .mentoring-hero {
+    padding-block: var(--space-8) var(--space-5);
+  }
+
+  .hero-intro {
+    margin-top: var(--space-4);
+    max-width: 64ch;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--fs-body-lg);
+    line-height: var(--lh-relaxed);
+    color: var(--color-text-sub);
+  }
+
+  .hero-intro p {
+    margin: 0;
+  }
+
+  .hero-intro .lead {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .audience-title {
+    margin-top: var(--space-3) !important;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .audience-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: var(--fs-body);
+  }
+
+  .audience-list li {
+    position: relative;
+    padding-left: var(--space-2);
+  }
+
+  .audience-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-muted);
+  }
+
+  /* Cohort banner */
+  .cohort-banner {
+    margin-top: var(--space-5);
+    padding: var(--space-3) var(--space-4);
+    border-left: 3px solid var(--color-accent);
+    background: var(--color-bg-elevated);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: var(--container-narrow);
+  }
+
+  .cohort-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .cohort-dates {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+  }
+
+  .cohort-row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: var(--space-2);
+    font-size: var(--fs-body);
+  }
+
+  .cohort-row dt {
+    color: var(--color-text-muted);
+    font-size: var(--fs-caption);
+  }
+
+  .cohort-row dd {
+    color: var(--color-text);
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Common section spacing */
+  .programs-section,
+  .format-section,
+  .apply-section,
+  .reviews-section,
+  .ebook-section {
+    padding-block: var(--space-7);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .programs-grid {
+    margin-top: var(--space-5);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+
+  @media (max-width: 1024px) {
+    .programs-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  }
+
+  /* Session format */
+  .format-list {
+    margin-top: var(--space-4);
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    max-width: var(--container-narrow);
+    font-size: var(--fs-body);
+    line-height: var(--lh-relaxed);
+    color: var(--color-text-sub);
+  }
+
+  .format-list li {
+    position: relative;
+    padding-left: var(--space-2);
+  }
+
+  .format-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-muted);
+  }
+
+  /* Application steps */
+  .step-list {
+    margin-top: var(--space-4);
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-2);
+  }
+
+  @media (max-width: 768px) {
+    .step-list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .step-list li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .step-num {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    color: var(--color-accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .step-text {
+    font-size: var(--fs-body);
+    color: var(--color-text);
+    line-height: var(--lh-tight);
+  }
+
+  /* CTA row */
+  .apply-cta-row {
+    margin-top: var(--space-5);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-accent);
+    color: var(--color-bg-elevated);
+    font-size: var(--fs-body);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    transition: background-color 140ms ease;
+  }
+
+  .cta-button:hover {
+    background: var(--color-text);
+  }
+
+  .cta-note {
+    margin: 0;
+    font-size: var(--fs-caption);
+    color: var(--color-text-muted);
+  }
+
+  /* Payment info */
+  .payment-info,
+  .refund-info {
+    margin-top: var(--space-5);
+    padding: var(--space-3);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    max-width: var(--container-narrow);
+  }
+
+  .payment-title,
+  .refund-title {
+    font-size: var(--fs-body);
+    font-weight: 700;
+    margin: 0;
+    margin-bottom: var(--space-2);
+    color: var(--color-text);
+  }
+
+  .payment-detail {
+    font-size: var(--fs-body);
+    color: var(--color-text);
+  }
+
+  .account {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  .payment-note {
+    margin: 0;
+    margin-top: var(--space-2);
+    font-size: var(--fs-caption);
+    color: var(--color-text-sub);
+  }
+
+  .refund-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: var(--fs-body);
+    color: var(--color-text-sub);
+    line-height: var(--lh-relaxed);
+  }
+
+  .refund-list li {
+    position: relative;
+    padding-left: var(--space-2);
+  }
+
+  .refund-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-muted);
+  }
+
+  /* Reviews */
+  .reviews-list {
+    margin-top: var(--space-5);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* eBook cross-sell */
+  .ebook-card {
+    margin-top: var(--space-5);
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-5);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-elevated);
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .ebook-card {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ebook-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .ebook-headline {
+    margin: 0;
+    font-size: var(--fs-h3);
+    color: var(--color-text);
+  }
+
+  .ebook-pitch {
+    margin: 0;
+    font-size: var(--fs-body);
+    line-height: var(--lh-relaxed);
+    color: var(--color-text-sub);
+  }
+
+  .ebook-bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: var(--fs-body);
+    color: var(--color-text-sub);
+  }
+
+  .ebook-bullets li {
+    position: relative;
+    padding-left: var(--space-2);
+  }
+
+  .ebook-bullets li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-muted);
+  }
+
+  .ebook-cta-block {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 900px) {
+    .ebook-cta-block {
+      justify-content: flex-start;
+    }
+  }
+
+  .ebook-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--color-line-strong);
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    font-size: var(--fs-body);
+    font-weight: 600;
+    transition: background-color 140ms ease, color 140ms ease;
+  }
+
+  .ebook-cta:hover {
+    background: var(--color-text);
+    color: var(--color-bg-elevated);
+  }
+</style>

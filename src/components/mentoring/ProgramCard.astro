@@ -1,0 +1,245 @@
+---
+import { formatKrw, type MentoringProgram } from "../../data/mentoring";
+
+interface Props {
+  program: MentoringProgram;
+  applyHref?: string;
+}
+
+const { program, applyHref = "#apply" } = Astro.props;
+const {
+  title,
+  subtitle,
+  price,
+  originalPrice,
+  durationMinutes,
+  monthlySlots,
+  badge,
+  bullets,
+  externalLinkLabel,
+  externalLinkHref,
+} = program;
+
+const hasDiscount = originalPrice && originalPrice > price;
+const discountAmount = hasDiscount ? originalPrice - price : 0;
+---
+
+<article class="program-card">
+  {badge && <span class="badge">{badge}</span>}
+
+  <header class="card-head">
+    <h3 class="title">{title}</h3>
+    {subtitle && <p class="subtitle">{subtitle}</p>}
+  </header>
+
+  <div class="meta-row">
+    <div class="price-block">
+      {hasDiscount && (
+        <span class="price-original">{formatKrw(originalPrice!)}</span>
+      )}
+      <span class="price-current">{formatKrw(price)}</span>
+      {hasDiscount && (
+        <span class="discount-note">
+          {formatKrw(discountAmount)} 할인
+        </span>
+      )}
+    </div>
+
+    <dl class="info-rows">
+      {durationMinutes && (
+        <div class="info-row">
+          <dt>진행 시간</dt>
+          <dd>{durationMinutes}분 1:1</dd>
+        </div>
+      )}
+      {monthlySlots && (
+        <div class="info-row">
+          <dt>월 슬롯</dt>
+          <dd>{monthlySlots}명 한정</dd>
+        </div>
+      )}
+    </dl>
+  </div>
+
+  <ul class="bullets">
+    {bullets.map((b) => <li>{b}</li>)}
+  </ul>
+
+  <div class="actions">
+    <a class="apply" href={applyHref}>신청하기 <span aria-hidden="true">→</span></a>
+    {externalLinkHref && (
+      <a
+        class="external"
+        href={externalLinkHref}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {externalLinkLabel ?? "자세히 보기"} <span aria-hidden="true">↗</span>
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .program-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .badge {
+    position: absolute;
+    top: -10px;
+    left: var(--space-4);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: var(--tracking-label);
+    color: var(--color-bg-elevated);
+    background: var(--color-accent);
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+  }
+
+  .title {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    line-height: var(--lh-tight);
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .subtitle {
+    margin: 0;
+    margin-top: 4px;
+    font-size: var(--fs-body);
+    color: var(--color-text-sub);
+    line-height: var(--lh-relaxed);
+  }
+
+  .meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-block: var(--space-2);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .price-block {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .price-original {
+    font-size: var(--fs-body);
+    color: var(--color-text-muted);
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+  }
+
+  .price-current {
+    font-size: var(--fs-h2);
+    font-weight: 700;
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+
+  .discount-note {
+    font-size: var(--fs-caption);
+    color: var(--color-accent);
+    font-weight: 600;
+    background: var(--color-accent-soft);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .info-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 0;
+  }
+
+  .info-row {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: var(--space-2);
+    font-size: var(--fs-caption);
+  }
+
+  .info-row dt {
+    color: var(--color-text-muted);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .info-row dd {
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .bullets {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .bullets li {
+    position: relative;
+    padding-left: var(--space-2);
+    font-size: var(--fs-body);
+    line-height: var(--lh-relaxed);
+    color: var(--color-text-sub);
+  }
+
+  .bullets li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-text-muted);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: center;
+    margin-top: auto;
+    padding-top: var(--space-2);
+  }
+
+  .apply {
+    font-size: var(--fs-body);
+    font-weight: 600;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-line-strong);
+    padding-bottom: 2px;
+  }
+
+  .apply:hover {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+
+  .external {
+    font-size: var(--fs-caption);
+    color: var(--color-text-sub);
+  }
+
+  .external:hover {
+    color: var(--color-accent);
+  }
+</style>
