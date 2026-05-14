@@ -5,8 +5,9 @@ date: 2023-11-28
 tags:
   - 성장
   - 커리어
+cover: "/images/posts/senior-pm-growth-cover.svg"
+coverAlt: "경험이 쌓여도 일은 늘 어렵다"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/17
 ---
 
 PM으로 일하다 보면 일정 시점에 이런 벽에 부딪힌다. "업무는 익숙해졌는데, 왜 성장은 더디게 느껴질까?" 기획도, 일정 관리도, 협업도 익숙한데 일의 깊이와 시야가 정체된 듯한 순간이 온다. 이 시기를 처음 마주했을 때는 솔직히 당황스러웠다. 분명히 더 잘하고 있는 것 같은데, 어제와 오늘 사이에 의미 있는 변화가 보이지 않았다.

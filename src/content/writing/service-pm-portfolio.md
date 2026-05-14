@@ -4,8 +4,9 @@ description: 이렇게도 포트폴리오를 쓸 수 있어요
 date: 2019-08-25
 tags:
   - 취업준비
+cover: "/images/posts/service-pm-portfolio-cover.svg"
+coverAlt: "서비스 기획자 포트폴리오 작성방법"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/6
 ---
 
 어느 정도 경력이 쌓이고 이제 이직을 고민하기 시작할 때, 가장 먼저 부딪히는 벽은 의외로 단순하다. 내가 했던 프로젝트를 정리하고 싶은데, 포트폴리오를 어떻게 써야 할지 막막하다는 점이다.

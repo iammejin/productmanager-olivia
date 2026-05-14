@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="PM으로 오래가기 위한 세 가지 근육">
+  <rect width="1200" height="630" fill="#FAF8F5"/>
+  <rect x="0.5" y="0.5" width="1199" height="629" fill="none" stroke="#E8E3DC"/>
+  <text x="80" y="130" font-family="'Apple SD Gothic Neo','Noto Sans KR','Pretendard',sans-serif" font-size="20" font-weight="700" fill="#FF6B1A" letter-spacing="4">POSTS · 커리어</text>
+  <text font-family="'Apple SD Gothic Neo','Noto Sans KR','Pretendard',sans-serif" font-size="62" font-weight="700" fill="#1A1A1A" letter-spacing="-1.5">
+    <tspan x="80" y="280">PM으로 오래가기 위한</tspan>
+    <tspan x="80" y="356">세 가지 근육</tspan>
+  </text>
+  <text x="80" y="420" font-family="'Apple SD Gothic Neo','Noto Sans KR','Pretendard',sans-serif" font-size="22" font-weight="500" fill="#666">판단력 · 언어력 · 공감력</text>
+  <g transform="translate(940 220)">
+    <circle cx="30" cy="60" r="26" fill="none" stroke="#1A1A1A" stroke-width="4"/>
+    <text x="30" y="68" font-family="'Apple SD Gothic Neo','Noto Sans KR','Pretendard',sans-serif" font-size="22" font-weight="700" fill="#1A1A1A" text-anchor="middle">1</text>
+    <circle cx="100" cy="60" r="26" fill="none" stroke="#1A1A1A" stroke-width="4"/>
+    <text x="100" y="68" font-family="'Apple SD Gothic Neo','Noto Sans KR','Pretendard',sans-serif" font-size="22" font-weight="700" fill="#1A1A1A" text-anchor="middle">2</text>
+    <circle cx="170" cy="60" r="26" fill="#FF6B1A"/>
+    <text x="170" y="68" font-family="'Apple SD Gothic Neo','Noto Sans KR','Pretendard',sans-serif" font-size="22" font-weight="700" fill="#FAF8F5" text-anchor="middle">3</text>
+  </g>
+  <text x="80" y="555" font-family="'Apple SD Gothic Neo','Noto Sans KR','Pretendard',sans-serif" font-size="16" font-weight="500" fill="#888" letter-spacing="0.5">productmanager-olivia.com</text>
+  <path d="M 1085 495 L 1085 555 L 1145 555" fill="none" stroke="#FF6B1A" stroke-width="5"/>
+</svg>

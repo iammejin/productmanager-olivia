@@ -4,8 +4,9 @@ description: 목표를 명확히 하자.
 date: 2019-09-20
 tags:
   - PM
+cover: "/images/posts/what-does-pm-do-cover.svg"
+coverAlt: "기획자, 하는 일이 뭐예요?"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/4
 ---
 
 명함을 건네고 "서비스 기획자입니다"라고 소개하면, 열에 아홉은 "그게 정확히 어떤 일을 해요?"라고 되묻는다. 그럴 때마다 짧게 설명하기가 의외로 어렵다. 디자이너라고 하면 디자인을 한다, 개발자라고 하면 개발을 한다는 명확한 동사가 따라오는데, 기획자는 그 동사 자리에 무엇을 넣어야 할지 한참 고민하게 된다.

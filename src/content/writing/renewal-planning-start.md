@@ -4,8 +4,9 @@ description: 서비스 이해하고 페르소나 찾기
 date: 2019-08-20
 tags:
   - 프로젝트회고
+cover: "/images/posts/renewal-planning-start-cover.svg"
+coverAlt: "리뉴얼 기획을 시작하기에 앞서"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/3
 ---
 
 몇 개월 동안 약 400개의 고객사가 사용하고 있는 서비스를 리뉴얼하는 프로젝트를 맡았다. 숫자만 들으면 단순해 보이지만, 8년 이상 운영된 서비스에는 그 시간만큼의 결정과 타협이 쌓여 있다. 그 위에 새로운 그림을 다시 얹는 일은 단순히 화면을 새로 그리는 작업이 아니다.

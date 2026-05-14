@@ -4,8 +4,9 @@ description: 이력서 작성하는 방법
 date: 2020-10-03
 tags:
   - 취업준비
+cover: "/images/posts/resume-tips-cover.svg"
+coverAlt: "서류면접 합격하기 위한 나만의 팁"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/10
 ---
 
 이력서를 여러 곳에 제출했는데도 면접 기회가 한 통도 오지 않을 때가 있다. "면접만 보면 자신 있는데, 왜 기회조차 안 오지?" 이런 고민을 해 본 사람이라면 너무나 익숙할 것이다. 나도 그랬다. 분명히 잘 써 보낸 것 같은데 한 달이 지나도 답이 없는 메일함을 들여다보면서, 도대체 어디서부터 틀렸는지를 자꾸 곱씹게 되는 시기였다.

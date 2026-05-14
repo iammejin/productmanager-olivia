@@ -4,8 +4,9 @@ description: PM의 하루를 버티는 방법
 date: 2024-11-21
 tags:
   - PM
+cover: "/images/posts/pm-daily-rhythm-cover.svg"
+coverAlt: "회의 없는 날은 없다"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/16
 ---
 
 PM의 하루는 늘 계획보다 복잡하다. 회의, 조율, 문서, 슬랙, 그리고 예측 불가능한 변동들. 매일 똑같이 시작하지만, 끝날 때마다 다른 종류의 피로가 남는다.

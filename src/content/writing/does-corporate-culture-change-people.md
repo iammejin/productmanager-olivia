@@ -5,6 +5,8 @@ date: 2024-05-15
 tags:
   - 커리어
   - 조직문화
+cover: "/images/posts/does-corporate-culture-change-people-cover.svg"
+coverAlt: "기업문화가 구성원을 바꾼다?"
 draft: false
 ---
 

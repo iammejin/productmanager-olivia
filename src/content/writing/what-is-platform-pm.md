@@ -4,8 +4,9 @@ description: 플랫폼 기획자는 무슨일을 할까?
 date: 2021-11-08
 tags:
   - PM
+cover: "/images/posts/what-is-platform-pm-cover.svg"
+coverAlt: "너는 뭘 기획하니?"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/7
 ---
 
 ## "너는 거기서 어떤 것을 기획하니?"

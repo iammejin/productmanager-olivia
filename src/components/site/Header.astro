@@ -1,5 +1,5 @@
 ---
-import { nav, siteConfig } from "../../data/site";
+import { nav } from "../../data/site";
 import type { NavKey } from "../../layouts/BaseLayout.astro";
 
 interface Props {
@@ -11,9 +11,6 @@ const { current } = Astro.props;
 
 <header class="site-header">
   <div class="container-full header-inner">
-    <a href="/" class="logo" aria-label={`${siteConfig.logoText} home`}>
-      <span class="logo-text">olivia</span><span class="logo-dot">.</span>
-    </a>
     <nav class="gnb" aria-label="primary">
       <ul class="gnb-list">
         {
@@ -43,23 +40,9 @@ const { current } = Astro.props;
   .header-inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     min-height: 72px;
     padding-block: var(--space-2);
-  }
-
-  .logo {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: var(--color-text);
-    line-height: 1;
-    display: inline-flex;
-    align-items: baseline;
-  }
-
-  .logo-dot {
-    color: var(--color-accent);
   }
 
   .gnb-list {

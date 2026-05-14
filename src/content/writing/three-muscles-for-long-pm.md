@@ -5,8 +5,9 @@ date: 2025-03-07
 tags:
   - 커리어
   - 성장
+cover: "/images/posts/three-muscles-for-long-pm-cover.svg"
+coverAlt: "PM으로 오래가기 위한 세 가지 근육"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/19
 ---
 
 ##  잘 굴러가는데 왜 정체된 느낌일까

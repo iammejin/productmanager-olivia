@@ -4,8 +4,9 @@ description: 오늘도 나는 그냥 기획서를 썼습니다
 date: 2022-07-29
 tags:
   - 프로젝트회고
+cover: "/images/posts/unconvincing-project-cover.svg"
+coverAlt: "내가 납득하지 못하는 프로젝트를 해야 할 때"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/14
 ---
 
 어느 날 팀장님이 나를 불렀다. "작년에 진행하다가 보류된 A 개선 프로젝트, 이번에 다시 해봐야 할 것 같아요." 그 말을 듣는 순간, 머릿속에 작년의 회의록과 데이터들이 한꺼번에 떠올랐다. 마음이 무거워졌다.

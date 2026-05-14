@@ -5,8 +5,9 @@ date: 2025-11-14
 tags:
   - 커리어
   - 성장
+cover: "/images/posts/energy-draining-vs-filling-cover.svg"
+coverAlt: "에너지가 빠지는 일 vs 채워지는 일"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/15
 ---
 
 커리어를 이어오다 보면 어느 순간 이런 생각이 든다. "나는 왜 이 일을 해도 예전처럼 즐겁지 않을까?"

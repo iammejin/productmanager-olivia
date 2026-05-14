@@ -4,8 +4,9 @@ description: 우리 함께 서로를 이해하는것?
 date: 2018-08-20
 tags:
   - PM
+cover: "/images/posts/good-communication-planner-cover.svg"
+coverAlt: "기획자의 좋은 커뮤니케이션이란?"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/2
 ---
 
 처음 기획팀에 들어갔을 때 나의 선임은 기획자의 업무 중 가장 주된 일은 '커뮤니케이션'이라고 말했다. 그러면서 '좋은 커뮤니케이션'을 해야 한다고 덧붙였다. 그 당시에는 도대체 좋은 커뮤니케이션이 뭘까, 그게 따로 있을까 생각했다. 말 잘하면 좋은 거 아닌가, 회의 잘 진행하면 되는 것 아닌가, 단순하게 받아들이고 넘겼다.

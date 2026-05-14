@@ -13,6 +13,8 @@ const writing = defineCollection({
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
     canonical: z.string().url().optional(),
+    cover: z.string().optional(),
+    coverAlt: z.string().optional(),
   }),
 });
 

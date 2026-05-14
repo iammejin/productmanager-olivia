@@ -30,7 +30,7 @@ const { tag, posts } = Astro.props;
 >
   <section class="tag-page">
     <div class="container-wide">
-      <SectionTitle eyebrow="Writing · Tag" title={`#${tag}`} level={1} />
+      <SectionTitle eyebrow="Posts · Tag" title={`#${tag}`} level={1} />
 
       <p class="meta">
         총 {posts.length}개의 글 ·
@@ -47,6 +47,8 @@ const { tag, posts } = Astro.props;
                 description={post.data.description}
                 date={post.data.date}
                 tags={post.data.tags}
+                cover={post.data.cover}
+                coverAlt={post.data.coverAlt}
               />
             </li>
           ))

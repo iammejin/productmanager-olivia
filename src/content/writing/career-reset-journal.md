@@ -5,8 +5,9 @@ date: 2025-11-10
 tags:
   - 성장
   - 커리어
+cover: "/images/posts/career-reset-journal-cover.svg"
+coverAlt: "내가 왜 힘든지 모를 때 나를 알아가는 방법"
 draft: false
-brunch_url: https://brunch.co.kr/@olivia200a/13
 ---
 
 일을 하다 보면 어느 순간, 딱히 큰 문제가 있는 건 아닌데 마음이 싱숭생숭해질 때가 있다. 성과도 나쁘지 않고, 동료와의 관계도 괜찮다. 회의는 흘러가고, 슬랙은 늘 그렇듯 바쁘게 울린다. 그런데 왠지 모르게 속이 답답하고, 집중이 잘 안 되는 시기가 온다. 출근하는 길에 이유 없이 한숨이 길어지고, 퇴근하면 일이 끝났는데도 머리가 무겁다.

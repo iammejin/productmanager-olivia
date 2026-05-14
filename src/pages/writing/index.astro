@@ -16,13 +16,13 @@ const allTags = Array.from(
 ---
 
 <BaseLayout
-  title="Writing"
-  description="PM 김혜진(Olivia)이 쌓아온 실무 인사이트와 직무 전환 경험에 대한 글 모음."
+  title="Posts"
+  description="PM 김혜진이 쌓아온 실무 인사이트와 직무 전환 경험에 대한 글 모음."
   current="writing"
 >
   <section class="writing-list-section">
     <div class="container-wide">
-      <SectionTitle eyebrow="Writing" title="모든 글" level={1} />
+      <SectionTitle eyebrow="Posts" title="모든 글" level={1} />
 
       {
         allTags.length > 0 && (
@@ -54,6 +54,8 @@ const allTags = Array.from(
                   description={post.data.description}
                   date={post.data.date}
                   tags={post.data.tags}
+                  cover={post.data.cover}
+                  coverAlt={post.data.coverAlt}
                 />
               </li>
             ))}
