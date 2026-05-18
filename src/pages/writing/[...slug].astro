@@ -25,7 +25,7 @@ const formattedUpdated = post.data.updated
   description={post.data.description}
   current="writing"
 >
-  <article class="post">
+  <article class="post" data-slug={post.id}>
     <div class="container-narrow">
       <header class="post-header">
         <span class="eyebrow">Posts</span>
@@ -38,10 +38,6 @@ const formattedUpdated = post.data.updated
           {formattedUpdated && (
             <span class="updated">· 수정 {formattedUpdated}</span>
           )}
-          <span class="meta-divider" aria-hidden="true">·</span>
-          <span class="view-count" data-slug={post.id}>
-            조회수 <span class="count">—</span>
-          </span>
           {post.data.tags.length > 0 && (
             <span class="meta-divider" aria-hidden="true">·</span>
           )}
@@ -85,26 +81,21 @@ const formattedUpdated = post.data.updated
 
   <script>
     // 정적 사이트라 브라우저 단위 localStorage 카운터를 사용한다.
-    // 한 세션당 1회 증가, 다른 브라우저/디바이스에서는 별도 집계.
+    // UI에는 노출하지 않고 저장만 유지 — 나중에 노출/집계 시 재사용 목적.
     function trackView() {
-      const el = document.querySelector<HTMLElement>(".view-count");
-      if (!el) return;
-      const slug = el.dataset.slug;
-      const countEl = el.querySelector<HTMLElement>(".count");
-      if (!slug || !countEl) return;
+      const el = document.querySelector<HTMLElement>("article.post");
+      const slug = el?.dataset.slug;
+      if (!slug) return;
 
       try {
         const storeKey = `views:${slug}`;
         const sessionKey = `viewed:${slug}`;
+        if (sessionStorage.getItem(sessionKey)) return;
         const current = Number(localStorage.getItem(storeKey) ?? "0") || 0;
-        const next = sessionStorage.getItem(sessionKey) ? current : current + 1;
-        if (!sessionStorage.getItem(sessionKey)) {
-          localStorage.setItem(storeKey, String(next));
-          sessionStorage.setItem(sessionKey, "1");
-        }
-        countEl.textContent = next.toLocaleString("ko-KR");
+        localStorage.setItem(storeKey, String(current + 1));
+        sessionStorage.setItem(sessionKey, "1");
       } catch {
-        countEl.textContent = "—";
+        // localStorage 접근 실패 시 조용히 무시
       }
     }
 
@@ -151,11 +142,6 @@ const formattedUpdated = post.data.updated
     font-size: var(--fs-caption);
     color: var(--color-text-muted);
     font-variant-numeric: tabular-nums;
-  }
-
-  .view-count .count {
-    color: var(--color-text-sub);
-    font-weight: 500;
   }
 
   .post-cover {
