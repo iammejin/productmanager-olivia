@@ -1,14 +1,14 @@
 ---
 title: 너는 뭘 기획하니?
-description: 플랫폼 기획자는 무슨일을 할까?
+description: 플랫폼 PM은 무슨일을 할까?
 date: 2021-11-08
 tags:
   - PM
-cover: "/images/posts/what-is-platform-pm-cover.svg"
-coverAlt: "너는 뭘 기획하니?"
+cover: ""
+coverAlt: ""
 draft: false
+status: published
 ---
-
 ## "너는 거기서 어떤 것을 기획하니?"
 
 부모님께 이직 소식을 전했을 때, "너는 거기서 어떤 것을 기획하니?"라는 질문을 받았다. 친구들과 대화할 때도 유사한 질문이 반복된다. 서비스 PM으로 일한다고 하면 대부분 구체적으로 무엇을 기획하는지 묻곤 한다. 화면을 그리는지, 디자인을 하는지, 마케팅을 하는지. 직무 자체가 한 단어로 떨어지지 않다 보니 질문이 자연스레 따라온다.

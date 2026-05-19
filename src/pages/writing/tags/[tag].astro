@@ -6,7 +6,10 @@ import TagBadge from "../../../components/ui/TagBadge.astro";
 import WritingListItem from "../../../components/writing/WritingListItem.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("writing", ({ data }) => !data.draft);
+  const posts = await getCollection(
+    "writing",
+    ({ data }) => import.meta.env.DEV || !data.draft
+  );
   const uniqueTags = Array.from(new Set(posts.flatMap((p) => p.data.tags)));
 
   return uniqueTags.map((tag) => {
