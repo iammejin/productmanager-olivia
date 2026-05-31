@@ -22,7 +22,6 @@ export const nav: NavItem[] = [
   { href: "/", label: "Home", key: "home" },
   { href: "/writing", label: "Posts", key: "writing" },
   { href: "/about", label: "About", key: "about" },
-  { href: "/mentoring", label: "Mentoring", key: "mentoring" },
   { href: "/ebook", label: "eBook", key: "ebook" },
 ];
 

@@ -54,13 +54,17 @@ const targetAudience = [
         </div>
       </div>
 
-      <aside class="hero-cover" aria-hidden="true">
+      <aside class="hero-cover">
         <div class="cover-frame">
-          <div class="cover-placeholder">
-            <span class="cover-tag">eBook</span>
-            <span class="cover-title">면접관에게 듣는<br />합격하는<br />포폴 치트키</span>
-            <span class="cover-byline">PM Olivia</span>
-          </div>
+          <img
+            class="cover-image"
+            src="/images/ebook-cover.jpg"
+            alt="면접관에게 듣는 합격하는 포폴 치트키 (Feat. AI) — eBook 표지"
+            width="640"
+            height="853"
+            loading="eager"
+            decoding="async"
+          />
         </div>
       </aside>
     </div>
@@ -199,36 +203,11 @@ const targetAudience = [
     border-bottom: 3px solid var(--color-accent);
   }
 
-  .cover-placeholder {
+  .cover-image {
+    display: block;
     width: 100%;
     height: 100%;
-    padding: var(--space-4);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  .cover-tag {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
-    color: var(--color-accent);
-  }
-
-  .cover-title {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1.25;
-    color: var(--color-text);
-    letter-spacing: -0.01em;
-  }
-
-  .cover-byline {
-    font-size: var(--fs-caption);
-    color: var(--color-text-muted);
-    letter-spacing: 0.05em;
+    object-fit: cover;
   }
 
   @media (max-width: 900px) {
