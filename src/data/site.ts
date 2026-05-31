@@ -26,8 +26,8 @@ export const nav: NavItem[] = [
 ];
 
 export const externalLinks = {
-  instagram: "https://www.instagram.com/pm_mejin/",
-  linkedin: "https://www.linkedin.com/in/hyejin-kim",
+  instagram: "https://www.instagram.com/pm_mejin",
+  linkedin: "https://www.linkedin.com/in/%ED%98%9C%EC%A7%84-%EA%B9%80-a4698b95/",
   ebook: "https://litt.ly/mejin/sale/RBa4E8c",
   mentoringForm: "https://www.notion.so/370ee2313e8b43c6939e9f0256343f91",
 } as const;
